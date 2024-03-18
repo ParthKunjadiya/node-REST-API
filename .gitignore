@@ -15,6 +15,8 @@ Thumbs.db
 # Ignore npm's cache
 .npm/
 
+=======
+>>>>>>> e1471349e682ad3bbff2636e462e99d82933b3df
 # Logs
 logs
 *.log
