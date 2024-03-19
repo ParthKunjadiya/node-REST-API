@@ -1,13 +1,24 @@
+const bcrypt = require('bcryptjs');
+
+const User = require('../models/user');
+
 module.exports = {
-    hello() {
-        return {
-            text: 'Hello Wordl!',
-            views() {
-                return {
-                    text: 'sub query text', // this field is not required
-                    subText: 'Hello from sub query'
-                }
-            }
+    // createUser(args, req) {
+    //     const email = args.userInput.email;
+    // }
+    createUser: async function ({ userInput }, req) {
+        const existingUser = await User.findOne({ email: userInput.email });
+        if (existingUser) {
+            const error = new Error('User exists already!');
+            throw error;
         }
+        const hashedPw = await bcrypt.hash(password, 12);
+        const user = new User({
+            email: userInput.email,
+            name: userInput.name,
+            password: hashedPw
+        })
+        const createdUser = await user.save();
+        return { ...createdUser._doc, _id: createdUser._id.toString() }
     }
 }
