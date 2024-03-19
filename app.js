@@ -58,8 +58,15 @@ app.use((error, req, res, next) => {
 
 mongoose.connect('mongodb+srv://Parth:%40Parth45%40@cluster0.tajycs5.mongodb.net/Messages?retryWrites=true&w=majority&appName=Cluster0')
     .then(result => {
-        app.listen(8080);
+        const server = app.listen(8080);
+        const io = require('./socket').init(server);
+        io.on("connection", socket => {
+            console.log('Client connected');
+        });
     })
     .catch((err) => {
         console.log(err);
     });
+
+//  To run front-end enable legacy OpenSSL provider.
+// run in frontend terminal: export NODE_OPTIONS=--openssl-legacy-provider
