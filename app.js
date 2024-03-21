@@ -1,5 +1,4 @@
 const path = require('path');
-const fs = require('fs');
 
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -11,6 +10,7 @@ const { graphqlHTTP } = require('express-graphql');
 const graphqlSchema = require('./graphql/schema');
 const graphqlResolver = require('./graphql/resolvers');
 const auth = require('./middleware/auth');
+const { clearImage } = require('./util/file');
 
 const app = express();
 app.use(cors());
@@ -97,15 +97,6 @@ mongoose.connect('mongodb+srv://Parth:%40Parth45%40@cluster0.tajycs5.mongodb.net
     .catch((err) => {
         console.log(err);
     });
-
-const clearImage = filePath => {
-    filePath = path.join(__dirname, '..', filePath);
-    fs.unlink(filePath, err => {
-        if (err) {
-            console.log(err)
-        }
-    });
-}
 
 //  To run front-end enable legacy OpenSSL provider.
 // run in frontend terminal: export NODE_OPTIONS=--openssl-legacy-provider
